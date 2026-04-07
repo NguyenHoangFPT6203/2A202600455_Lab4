@@ -1,0 +1,108 @@
+
+============================================================
+TEST: Test 1 - Direct Answer
+Ban: Xin chào! Tôi đang muốn đi du lịch nhưng chưa biết đi đâu.
+------------------------------------------------------------
+Trả lời trực tiếp
+Tools invoked (order): (none)
+TravelBuddy: Chào bạn! Rất vui được hỗ trợ bạn trong việc lên kế hoạch du lịch. Bạn có ý tưởng nào về điểm đến, hoặc bạn muốn khám phá những nơi nào ở Việt Nam? Ngoài ra, cho mình biết thêm về thời gian đi và ngân sách của bạn nếu có, để mình có thể tư vấn cụ thể hơn nhé!
+
+============================================================
+TEST: Test 2 - Single Tool
+Ban: Tìm giúp tôi chuyến bay từ Hà Nội đi Đà Nẵng
+------------------------------------------------------------
+Gọi tool: search_flights ({'origin': 'Hà Nội', 'destination': 'Đà Nẵng'})
+Trả lời trực tiếp
+Tools invoked (order): ['search_flights']
+TravelBuddy: Dưới đây là thông tin chuyến bay từ Hà Nội đi Đà Nẵng:
+
+1. **Hãng hàng không**: Vietjet Air
+   - **Giờ khởi hành**: 08:30
+   - **Giờ đến**: 09:50
+   - **Giá vé**: 890.000 VND (hạng phổ thông)
+
+2. **Hãng hàng không**: Bamboo Airways
+   - **Giờ khởi hành**: 11:00
+   - **Giờ đến**: 12:20
+   - **Giá vé**: 1.200.000 VND (hạng phổ thông)
+
+3. **Hãng hàng không**: Vietnam Airlines
+   - **Giờ khởi hành**: 06:00
+   - **Giờ đến**: 07:20
+   - **Giá vé**: 1.450.000 VND (hạng phổ thông)
+
+4. **Hãng hàng không**: Vietnam Airlines
+   - **Giờ khởi hành**: 14:00
+   - **Giờ đến**: 15:20
+   - **Giá vé**: 2.800.000 VND (hạng thương gia)
+
+Bạn có muốn đặt vé hay cần thêm thông tin gì không?
+  [Tool search_flights] [{"airline": "Vietjet Air", "departure": "08:30", "arrival": "09:50", "price": 890000, "class": "economy"}, {"airline": "Bamboo Airways", "departure": "11:00", "arrival": "12:20", "price": 1200000, "class": "economy"}, {"airline": "Vietnam Airlines", "departure": "06:00", "arrival": "07:20", "price": 1450000, "class": "economy"}, {"airline": "Vietnam Airlines", "departure": "14:00", "arrival": "15:20", "price": 2800000, "class": "business"}]
+
+============================================================
+TEST: Test 3 - Multi-Step Chain
+Ban: Tôi ở Hà Nội, muốn đi Phú Quốc 2 đêm, budget 5 triệu. Tư vấn giúp!
+------------------------------------------------------------
+Gọi tool: search_flights ({'origin': 'Hà Nội', 'destination': 'Phú Quốc'})
+Gọi tool: search_hotels ({'city': 'Phú Quốc', 'max_price_per_night': 2500000})
+Gọi tool: calculate_budget ({'total_budget': 5000000, 'expenses': 'vé_máy bay:1100000,khách_sạn:4000000'})
+Trả lời trực tiếp
+Tools invoked (order): ['search_flights', 'search_hotels', 'calculate_budget']
+TravelBuddy: Dưới đây là thông tin chuyến đi của bạn từ Hà Nội đến Phú Quốc trong 2 đêm:
+
+### Chuyến bay:
+1. **Vietjet Air**: 
+   - Giờ bay: 06:40 - 08:40
+   - Giá vé: 1.100.000 VNĐ
+   
+2. **Vietravel Airlines**:
+   - Giờ bay: 16:20 - 18:20
+   - Giá vé: 1.450.000 VNĐ
+   
+3. **Bamboo Airways**:
+   - Giờ bay: 13:00 - 15:00
+   - Giá vé: 1.700.000 VNĐ
+   
+4. **Vietnam Airlines**: 
+   - Giờ bay: 07:00 - 09:00
+   - Giá vé: 2.000.000 VNĐ
+
+### Khách sạn:
+1. **Salinda Resort Phu Quoc Island** (4 sao)
+   - Giá: 2.000.000 VNĐ/đêm (tổng cho 2 đêm: 4.000.000 VNĐ)
+   - Khu vực: Dương Đông
+   - Đánh giá: 4 sao
+
+2. **La Veranda Resort Phu Quoc - MGallery** (3 sao)
+   - Giá: 1.200.000 VNĐ/đêm (tổng cho 2 đêm: 2.400.000 VNĐ)
+   - Khu vực: Dương Đông
+   - Đánh giá: 3.5 sao
+
+### Tổng chi phí ước tính:
+- **Vé máy bay**: 1.100.000 VNĐ
+- **Khách sạn (Salinda)**: 4.000.000 VNĐ
+- **Tổng**: 5.100.000 VNĐ
+
+### Kết luận:
+Với ngân sách 5 triệu, bạn sẽ thiếu khoảng 100.000 VNĐ nếu chọn khách sạn Salinda. Nếu bạn chọn **La Veranda Resort**, tổng chi sẽ là 3.500.000 VNĐ (1.100.000 VNĐ vé máy bay + 2.400.000 VNĐ khách sạn), và bạn sẽ còn lại 1.100.000 VNĐ cho các chi phí khác.
+
+Gợi ý thêm là bạn nên kiểm tra kỹ lại giá của các phòng khách sạn và vé máy bay trước khi đặt để đảm bảo không bị thiếu ngân sách nhé! Nếu cần thêm thông tin khác, cứ hỏi mình nhé!
+  [Tool search_flights] [{"airline": "Vietjet Air", "departure": "06:40", "arrival": "08:40", "price": 1100000, "class": "economy"}, {"airline": "Vietravel Airlines", "departure": "16:20", "arrival": "18:20", "price": 1450000, "class": "economy"}, {"airline": "Bamboo Airways", "departure": "13:00", "arrival": "15:00", "price": 1700000, "class": "economy"}, {"airline": "Vietnam Airlines", "departure": "07:00", "arrival": "09:00", "price": 2000000, "class": "economy"}]
+  [Tool search_hotels] [{"name": "Salinda Resort Phu Quoc Island", "stars": 4, "price_per_night": 2000000, "area": "Dương Đông", "rating": 4}, {"name": "La Veranda Resort Phu Quoc - MGallery", "stars": 3, "price_per_night": 1200000, "area": "Dương Đông", "rating": 3.5}]
+  [Tool calculate_budget] {"expenses": {"vé_máy bay": 1100000, "khách_sạn": 4000000}, "total_expense": 5100000, "remaining": -100000}
+
+============================================================
+TEST: Test 4 - Missing Info
+Ban: Tôi muốn đặt khách sạn
+------------------------------------------------------------
+Trả lời trực tiếp
+Tools invoked (order): (none)
+TravelBuddy: Bạn có thể cho mình biết thành phố mà bạn muốn đặt khách sạn và ngân sách tối đa mỗi đêm không?
+
+============================================================
+TEST: Test 5 - Guardrail
+Ban: Giải giúp tôi bài tập lập trình Python về linked list
+------------------------------------------------------------
+Trả lời trực tiếp
+Tools invoked (order): (none)
+TravelBuddy: Xin lỗi, nhưng mình không thể giúp bạn với yêu cầu lập trình hay bài tập. Tuy nhiên, nếu bạn có câu hỏi nào về du lịch, đặt vé máy bay hoặc phòng khách sạn, mình rất vui lòng hỗ trợ! Bạn có kế hoạch đi đâu không?
